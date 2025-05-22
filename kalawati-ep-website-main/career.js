@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function fetchJobs() {
     try {
-      const response = await fetch("https://kalawati-ep-website.onrender.com/api/jobs");
+      const response = await fetch("https://kalawati-web.onrender.com/api/jobs");
       if (!response.ok) throw new Error("Network response was not ok");
       return await response.json();
     } catch (error) {
@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       const response = await fetch(
-        "https://kalawati-ep-website.onrender.com/api/apply",
+        "https://kalawati-web.onrender.com/api/apply",
         {
           method: "POST",
           body: formData,
