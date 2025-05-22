@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= action === 'add' ? 'Add New Job' : 'Edit Job' %> - KEPL Careers</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <style>
+    :root {
+      --primary-color: #6C9BFF
+;
+      --secondary-color: #f7f9ff;
+    }
+    body {
+      background-color: #f7f9ff;
+      font-family: 'Poppins', sans-serif;
+    }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 250px;
+      background-color: var(--primary-color);
+      color: white;
+      padding-top: 20px;
+      z-index: 1;
+    }
+    .sidebar-header {
+      padding: 0 1rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+    }
+    .sidebar-header img {
+      height: 40px;
+      margin-bottom: 10px;
+    }
+    .nav-link {
+      color: rgba(255,255,255,0.8);
+      border-radius: 5px;
+      margin: 0.2rem 1rem;
+    }
+    .nav-link:hover, .nav-link.active {
+      background-color: rgba(255,255,255,0.1);
+      color: white;
+    }
+    .nav-link i {
+      margin-right: 10px;
+    }
+    .content {
+      margin-left: 250px;
+      padding: 20px;
+    }
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    .btn-primary {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+    @media (max-width: 992px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+      .content {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <img src="../../../assets/images/logokh.svg" alt="KEPL Logo">
+      <h5>Admin Dashboard</h5>
+    </div>
+    <ul class="nav flex-column mt-3">
+      <li class="nav-item">
+        <a class="nav-link active" href="/admin/dashboard">
+          <i class="bi bi-briefcase"></i> Jobs Management
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/logout">
+          <i class="bi bi-box-arrow-right"></i> Logout
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="content">
+    <div class="page-header">
+      <h3><%= action === 'add' ? 'Add New Job' : 'Edit Job' %></h3>
+      <a href="/admin/dashboard" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Back to Jobs
+      </a>
+    </div>
+
+    <% if (typeof error !== 'undefined') { %>
+      <div class="alert alert-danger" role="alert">
+        <%= error %>
+      </div>
+    <% } %>
+
+    <div class="card">
+      <div class="card-body">
+        <form action="<%= action === 'add' ? '/admin/job/add' : '/admin/job/edit/' + job._id %>" method="POST">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="title" class="form-label">Job Title</label>
+              <input type="text" class="form-control" id="title" name="title" 
+                     value="<%= job ? job.title : '' %>" required>
+            </div>
+            <div class="col-md-6">
+              <label for="department" class="form-label">Department</label>
+              <select class="form-select" id="department" name="department" required>
+                <option value="" disabled <%= !job ? 'selected' : '' %>>Select Department</option>
+                <option value="Sales & Marketing" <%= job && job.department === 'Sales & Marketing' ? 'selected' : '' %>>Sales & Marketing</option>
+                <option value="Supply Chain" <%= job && job.department === 'Supply Chain' ? 'selected' : '' %>>Supply Chain</option>
+                <option value="Finance" <%= job && job.department === 'Finance' ? 'selected' : '' %>>Finance</option>
+                <option value="Human Resources" <%= job && job.department === 'Human Resources' ? 'selected' : '' %>>Human Resources</option>
+                <option value="IT & Technology" <%= job && job.department === 'IT & Technology' ? 'selected' : '' %>>IT & Technology</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="jobType" class="form-label">Job Type</label>
+              <select class="form-select" id="jobType" name="jobType" required>
+                <option value="Full-time" <%= !job || job.jobType === 'Full-time' ? 'selected' : '' %>>Full-time</option>
+                <option value="Part-time" <%= job && job.jobType === 'Part-time' ? 'selected' : '' %>>Part-time</option>
+                <option value="Contract" <%= job && job.jobType === 'Contract' ? 'selected' : '' %>>Contract</option>
+                <option value="Internship" <%= job && job.jobType === 'Internship' ? 'selected' : '' %>>Internship</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="salary" class="form-label">Salary</label>
+              <input type="text" class="form-control" id="salary" name="salary" 
+                     value="<%= job ? job.salary : 'Competitive Salary' %>" required>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="description" class="form-label">Job Description</label>
+            <textarea class="form-control" id="description" name="description" rows="5" required><%= job ? job.description : '' %></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="tags" class="form-label">Tags (comma separated)</label>
+            <input type="text" class="form-control" id="tags" name="tags" 
+                   value="<%= job && job.tags ? job.tags.join(', ') : '' %>">
+            <div class="form-text">Example: Leadership, Marketing, Analysis</div>
+          </div>
+
+          <% if (action === 'edit') { %>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="isActive" name="isActive" <%= job.isActive ? 'checked' : '' %>>
+              <label class="form-check-label" for="isActive">Active listing</label>
+            </div>
+          <% } %>
+
+          <div class="d-flex justify-content-end gap-2">
+            <a href="/admin/dashboard" class="btn btn-outline-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">
+              <%= action === 'add' ? 'Create Job' : 'Update Job' %>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
