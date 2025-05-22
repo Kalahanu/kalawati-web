@@ -53,7 +53,7 @@ const upload = multer({
 });
 
 mongoose
-  .connect("mongodb+srv://labhbother12:138012@cluster0.jgulzpo.mongodb.net/", {
+  .connect("mongodb+srv://keplhr:kepl2024@cluster0.bjjn10n.mongodb.net/", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
