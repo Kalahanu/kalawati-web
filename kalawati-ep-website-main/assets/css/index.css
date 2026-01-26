@@ -1114,7 +1114,12 @@ figure {
   line-height: 1em;
   position: relative;
 }
-
+.logo-link img {
+  width: 50%;
+  height: auto;
+  margin-bottom: 5px;
+  margin-left: 20px;
+}
 .nav-menu {
   display: flex;
   position: static;

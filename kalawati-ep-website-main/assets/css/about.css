@@ -993,7 +993,7 @@ background: linear-gradient(135deg, #5F9DA0, #7FBFBF, #D0F0F7);
 }
 
 .logo-link img {
-  width: 100%;
+  width: 50%;
   height: auto;
   margin-bottom: 5px;
   margin-left: 20px;
